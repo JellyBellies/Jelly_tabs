@@ -1,0 +1,22 @@
+<ion-view view-title="{{gameTitle}}">
+  <ion-content>
+    <ion-list>
+	<div ng-hide="hide_input">
+		<label class="item item-input">
+		  <span class="input-label">Say something</span>
+		  <input type="text" ng-model="said_sentence">
+		</label>
+		<button class="button button-full button-positive" ng-click="button_say()">
+		  Read what u've said
+		</button>
+	</div>
+	<div ng-show="show_sentence"> 
+		{{said_sentence}}
+		<button class="button button-full button-positive" ng-click="button_go_back()">
+		  Go Back 
+		</button>
+	</div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

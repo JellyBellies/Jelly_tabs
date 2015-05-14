@@ -1,0 +1,7 @@
+{
+  "name": "Jelly_tabs",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/driftyco/ionic-bower#1.0.0-rc.5"
+  }
+}
