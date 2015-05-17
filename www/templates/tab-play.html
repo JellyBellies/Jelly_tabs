@@ -4,9 +4,7 @@
     {{checkForWord}}
 	    <form class="container" id="main_table" auto-tab-to='' max-length='1'>
 			<div class="row column">
-				<div class="col cell">
-					<input type="text" row="1" col="0" id="letter_1_0">
-				</div>
+				<button id="add_cell_left_1"> + </button>
 				<div class="col cell">
 					<input type="text" row="1" col="1" id="letter_1_1" ng-model="randomWordSplit[0]" disabled>
 				</div>
@@ -22,11 +20,10 @@
 				<div class="col cell">
 					<input type="text" row="1" col="5" id="letter_1_5" ng-model="randomWordSplit[4]" disabled>
 				</div>
+				<button id="add_cell_right_1"> + </button>
 			</div>
 			<div class="row column">
-			 	<div class="col cell">
-					<input type="text" row="2" col="0" id="letter_2_0" >
-				</div>
+				<button id="add_cell_left_2"> + </button>
 			 	<div class="col cell">
 					<input type="text" row="2" col="1" id="letter_2_1" ng-model="randomWordSplit[1]" disabled>
 				</div>
@@ -42,11 +39,10 @@
 				<div class="col cell">
 					<input type="text" row="2" col="5" id="letter_2_5" ng-model="randomWordSplit[3]" disabled>
 				</div>
+				<button id="add_cell_right_2"> + </button>
 			</div>
 			<div class="row column">
-				<div class="col cell">
-					<input type="text" row="2" col="0" id="letter_3_0" >
-				</div>
+				<button id="add_cell_left_3"> + </button>
 			 	<div class="col cell">
 					<input type="text" row="3" col="1" id="letter_3_1" ng-model="randomWordSplit[2]" disabled>
 				</div>
@@ -62,11 +58,10 @@
 				<div class="col cell">
 					<input type="text" row="3" col="5" id="letter_3_5" ng-model="randomWordSplit[2]" disabled>
 				</div>
+				<button id="add_cell_right_3"> + </button>
 			</div>
 			<div class="row column">
-				<div class="col cell">
-					<input type="text" row="2" col="0" id="letter_4_0" >
-				</div>
+				<button id="add_cell_left_4"> + </button>
 			 	<div class="col cell">
 					<input type="text" row="4" col="1" id="letter_4_1" ng-model="randomWordSplit[3]" disabled>
 				</div>
@@ -82,11 +77,10 @@
 				<div class="col cell">
 					<input type="text" row="4" col="5" id="letter_4_5" ng-model="randomWordSplit[1]" disabled>
 				</div>
+				<button id="add_cell_right_4 addCell"> + </button>
 			</div>
 			<div class="row column">
-				<div class="col cell">
-					<input type="text" row="2" col="0" id="letter_5_0" >
-				</div>s
+				<button id="add_cell_left_5"> + </button>
 			 	<div class="col cell">
 					<input type="text" row="5" col="1" id="letter_5_1" ng-model="randomWordSplit[4]" disabled>
 				</div>
@@ -102,6 +96,7 @@
 				<div class="col cell">
 					<input type="text" row="5" col="5" id="letter_5_5" ng-model="randomWordSplit[0]" disabled>
 				</div>
+				<a href="#" id="add_cell_right_5 addCell" type="addCell($event)"> + </a>
 			</div>
 		
 		<button class="button button-outline button-positive" type="submit">

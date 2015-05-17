@@ -4,6 +4,7 @@ mainController.controller('PlayCtrl', function($scope, $stateParams, Friends, ga
   $scope.checkForWord = 'empty';
   $scope.letter = [];
 
+
   
   // var worker = new Worker("js/loaddictionary.worker.js");
   
@@ -32,6 +33,28 @@ mainController.controller('PlayCtrl', function($scope, $stateParams, Friends, ga
     var words = [], row = 1;
 
   var grid = document.querySelector('#main_table');
+
+  /*  $scope.addCell = function(e){
+      console.log(angular.element(e.srcElement));  
+      return false;
+    }*/
+    
+/*document.getElementByID('').addEventListener('addCell', function(e){
+  console.log('lalalla');
+})*/
+
+
+var addings = document.querySelectorAll('*[id^="add_cell_right_"]');
+
+
+ for (var i = 0 ; i < addings.length; i++){
+ addings[i].addEventListener('click', function(e) {
+      console.log(e.target.getAttribute('id'));
+  }); };
+
+ 
+
+
   grid.addEventListener('submit', function(evt){
    
     for (var i = 0; i < evt.target.length; i++) {
