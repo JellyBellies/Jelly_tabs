@@ -47,11 +47,20 @@ mainController.controller('PlayCtrl', function($scope, $stateParams, Friends, ga
 var addings = document.querySelectorAll('*[id^="add_cell_right_"]');
 
 
+function generateNewCell() {
+  var templateDiv = document.createElement('div');
+  templateDiv.innerHTML = '<input type="text" row="5" col="2" id="letter_5_2">';
+  templateDiv.setAttribute('class', 'col cell');
+  return templateDiv;
+};
+
  for (var i = 0 ; i < addings.length; i++){
  addings[i].addEventListener('click', function(e) {
-      console.log(e.target.getAttribute('id'));
-  }); };
-
+      var a = generateNewCell();
+      e.target.parentElement.insertBefore(a, e.target);
+  }); 
+};
+ 
  
 
 
