@@ -44,20 +44,30 @@ mainController.controller('PlayCtrl', function($scope, $stateParams, Friends, ga
 })*/
 
 
-var addings = document.querySelectorAll('*[id^="add_cell_right_"]');
+var addings = document.querySelectorAll('*[id^="add_cell_"]');
 
 
-function generateNewCell() {
+function generateNewCell(cellParams) {
+  var lastChar = cellParams.id.slice(-1);
+  if (cellParams.id.search("right") > -1) {
+    var col = parseInt(cellParams.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
+  } else {
+    var col = parseInt(cellParams.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
+  }
   var templateDiv = document.createElement('div');
-  templateDiv.innerHTML = '<input type="text" row="5" col="2" id="letter_5_2">';
+  templateDiv.innerHTML = '<input type="text" row="'+lastChar+'" col="'+col+'" id="letter_'+lastChar+'_'+col+'">';
   templateDiv.setAttribute('class', 'col cell');
   return templateDiv;
 };
 
  for (var i = 0 ; i < addings.length; i++){
  addings[i].addEventListener('click', function(e) {
-      var a = generateNewCell();
-      e.target.parentElement.insertBefore(a, e.target);
+      var a = generateNewCell(e.target);
+      if (e.target.id.search("right") > -1) {
+         e.target.parentElement.insertBefore(a, e.target);
+    } else {
+         e.target.parentElement.insertBefore(a, e.target.nextSibling);
+    }
   }); 
 };
  
@@ -66,22 +76,33 @@ function generateNewCell() {
 
   grid.addEventListener('submit', function(evt){
    
+    var wordsAndPoints = [];
+
     for (var i = 0; i < evt.target.length; i++) {
       if(evt.target[i].getAttribute('row')){
         row = Number(evt.target[i].getAttribute('row'));
-        if(words[row-1]){
-            words[row-1] += evt.target[i].value;
+        if(wordsAndPoints[row-1]){
+            wordsAndPoints[row-1].word += evt.target[i].value;
+            if(wordsAndPoints[row-1].word)
+                  wordsAndPoints[row-1].points += 5;
+          //  console.log(evt.target[i]);
         }else{
-          words[row-1] = evt.target[i].value;
+          wordsAndPoints[row-1] = {word:evt.target[i].value};
+          if(wordsAndPoints[row-1].word)
+            wordsAndPoints[row-1].points=5;
+        //  console.log(evt.target[i]);
         }
         
       }
     };
 
     var submittedWords = [];
-    words.forEach(function(entry) {
-      if (entry.length > 2) {
+console.log(wordsAndPoints);
+
+    wordsAndPoints.forEach(function(entry) {
+      if (entry.word.length > 2) {
           submittedWords.push(entry);
+
       }
     });
 

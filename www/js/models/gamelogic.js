@@ -37,15 +37,15 @@ mainServices.service('gameLogic', function(FiveLetterWords, $q){
 	    	
 	    	for (i = 0; i < words.length; i++){
 		    	  // Prepare a statement
-		    	var stmt = db.prepare("SELECT * FROM dictionary WHERE word = '" +words[i]+"'");
+		    	var stmt = db.prepare("SELECT * FROM dictionary WHERE word = '" +words[i].word+"'");
 				    stmt.getAsObject({$start:1, $end:1}); // {col1:1, col2:111}
 
 				    // Bind new values
 
 				    stmt.bind({$start:1, $end:2});
 				    while(stmt.step()) { 
-						       points += words[i].length;
-						       console.log('points' + i + '  '+ points)
+						       points += words[i].points;
+						       console.log('points' + i + ' ' + words[i].word+'  '+ points)
 				        var row = stmt.getAsObject();
 				        
 				    }
