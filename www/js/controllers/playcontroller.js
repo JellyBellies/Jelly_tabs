@@ -52,7 +52,8 @@ function generateNewCell(cellParams) {
   if (cellParams.id.search("right") > -1) {
     var col = parseInt(cellParams.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
   } else {
-    var col = parseInt(cellParams.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
+    console.log(cellParams);
+    var col = parseInt(cellParams.nextElementSibling.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
   }
   var templateDiv = document.createElement('div');
   templateDiv.innerHTML = '<input type="text" row="'+lastChar+'" col="'+col+'" id="letter_'+lastChar+'_'+col+'">';
@@ -63,7 +64,7 @@ function generateNewCell(cellParams) {
  for (var i = 0 ; i < addings.length; i++){
  addings[i].addEventListener('click', function(e) {
       var a = generateNewCell(e.target);
-      if (e.target.id.search("right") > -1) {
+    if (e.target.id.search("right") > -1) {
          e.target.parentElement.insertBefore(a, e.target);
     } else {
          e.target.parentElement.insertBefore(a, e.target.nextSibling);
@@ -81,15 +82,33 @@ function generateNewCell(cellParams) {
     for (var i = 0; i < evt.target.length; i++) {
       if(evt.target[i].getAttribute('row')){
         row = Number(evt.target[i].getAttribute('row'));
+        col = Number(evt.target[i].getAttribute('col'));
+
         if(wordsAndPoints[row-1]){
+          console.log('adding 5');
             wordsAndPoints[row-1].word += evt.target[i].value;
-            if(wordsAndPoints[row-1].word)
-                  wordsAndPoints[row-1].points += 5;
+            if(evt.target[i].value.length > 0){
+              if (col > 5 || col < 1 ){
+                wordsAndPoints[row-1].points += -1;
+              }  else {
+                wordsAndPoints[row-1].points += 5;
+              }            
+            }
+
+                 
           //  console.log(evt.target[i]);
         }else{
           wordsAndPoints[row-1] = {word:evt.target[i].value};
-          if(wordsAndPoints[row-1].word)
-            wordsAndPoints[row-1].points=5;
+          if(wordsAndPoints[row-1].word){
+            console.log('setting points 5');
+               if(evt.target[i].value.length > 0){
+              if (col > 5 || col < 1 ){
+                wordsAndPoints[row-1].points = -1;
+              }  else {
+                wordsAndPoints[row-1].points = 5;
+              }            
+            }
+          }
         //  console.log(evt.target[i]);
         }
         
@@ -105,6 +124,9 @@ console.log(wordsAndPoints);
 
       }
     });
+
+
+
 
     try {
         gameLogic.CheckWords(submittedWords);

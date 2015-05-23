@@ -18,3 +18,7 @@ display:table-row;
 .cell > input {
 	text-align: center;
 }
+
+a {
+    padding: 20px;
+}
