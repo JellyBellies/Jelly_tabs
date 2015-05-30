@@ -44,15 +44,16 @@ mainController.controller('PlayCtrl', function($scope, $stateParams, Friends, ga
 })*/
 
 
-var addings = document.querySelectorAll('*[id^="add_cell_"]');
+var addings = document.querySelectorAll('*[id^="add_cell_"], *[id^="remove_cell_"]');
 
 
 function generateNewCell(cellParams) {
   var lastChar = cellParams.id.slice(-1);
+  
   if (cellParams.id.search("right") > -1) {
-    var col = parseInt(cellParams.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
+    var col = parseInt(cellParams.previousElementSibling.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
   } else {
-    console.log(cellParams);
+    
     var col = parseInt(cellParams.nextElementSibling.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
   }
   var templateDiv = document.createElement('div');
@@ -63,11 +64,24 @@ function generateNewCell(cellParams) {
 
  for (var i = 0 ; i < addings.length; i++){
  addings[i].addEventListener('click', function(e) {
+   
       var a = generateNewCell(e.target);
     if (e.target.id.search("right") > -1) {
-         e.target.parentElement.insertBefore(a, e.target);
+        if (e.target.id.search("remove") > -1  && (e.target.previousElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ){
+          e.target.parentElement.removeChild(e.target.previousElementSibling);
+        } 
+        if (e.target.id.search("add") > -1 ) {
+         e.target.parentElement.insertBefore(a, e.target.previousElementSibling.previousElementSibling.nextSibling);
+        }
     } else {
-         e.target.parentElement.insertBefore(a, e.target.nextSibling);
+      console.log(e.target.id.slice(-1));
+      if(e.target.id.search("remove") > -1 && (e.target.nextElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ) {
+        e.target.parentElement.removeChild(e.target.nextElementSibling);
+      }  
+      if (e.target.id.search("add") > -1 ) {
+        e.target.parentElement.insertBefore(a, e.target.nextSibling.nextSibling.nextSibling);
+
+      }
     }
   }); 
 };
