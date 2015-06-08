@@ -22,3 +22,7 @@ display:table-row;
 a {
     padding: 20px;
 }
+
+.invisible {
+    border: 0;
+}

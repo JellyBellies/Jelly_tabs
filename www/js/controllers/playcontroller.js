@@ -48,12 +48,11 @@ var addings = document.querySelectorAll('*[id^="add_cell_"], *[id^="remove_cell_
 
 
 function generateNewCell(cellParams) {
-  var lastChar = cellParams.id.slice(-1);
+  var lastChar = cellParams.getAttribute('row');
   
   if (cellParams.id.search("right") > -1) {
     var col = parseInt(cellParams.previousElementSibling.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
   } else {
-    
     var col = parseInt(cellParams.nextElementSibling.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
   }
   var templateDiv = document.createElement('div');
@@ -62,28 +61,60 @@ function generateNewCell(cellParams) {
   return templateDiv;
 };
 
- for (var i = 0 ; i < addings.length; i++){
- addings[i].addEventListener('click', function(e) {
-   
-      var a = generateNewCell(e.target);
-    if (e.target.id.search("right") > -1) {
-        if (e.target.id.search("remove") > -1  && (e.target.previousElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ){
-          e.target.parentElement.removeChild(e.target.previousElementSibling);
-        } 
-        if (e.target.id.search("add") > -1 ) {
-         e.target.parentElement.insertBefore(a, e.target.previousElementSibling.previousElementSibling.nextSibling);
-        }
-    } else {
-      console.log(e.target.id.slice(-1));
-      if(e.target.id.search("remove") > -1 && (e.target.nextElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ) {
-        e.target.parentElement.removeChild(e.target.nextElementSibling);
-      }  
-      if (e.target.id.search("add") > -1 ) {
-        e.target.parentElement.insertBefore(a, e.target.nextSibling.nextSibling.nextSibling);
+function generateInvisibleCell(cellParams) {
+  var lastChar = cellParams.getAttribute('row');
+  
+  if (cellParams.id.search("right") > -1) {
+    var col = parseInt(cellParams.previousElementSibling.previousElementSibling.firstElementChild.getAttribute('col')) + 1 ;
+  } else {
+    var col = parseInt(cellParams.nextElementSibling.nextElementSibling.firstElementChild.getAttribute('col')) - 1 ;
+  }
+  var templateDiv = document.createElement('div');
+  templateDiv.innerHTML = '<input type="text" row="'+lastChar+'" col="'+col+'" id="letter_'+lastChar+'_'+col+'">';
+  templateDiv.setAttribute('class', 'col cell invisible');
+  return templateDiv;
+};
 
+function addRemoveCells(e) {
+   
+  var a = generateNewCell(e.target);
+  if (e.target.id.search("right") > -1) {
+      if (e.target.id.search("remove") > -1  && (e.target.previousElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ){
+        e.target.parentElement.removeChild(e.target.previousElementSibling);
+      } 
+      if (e.target.id.search("add") > -1 ) {
+        e.target.parentElement.insertBefore(a, e.target.previousElementSibling.previousElementSibling.nextSibling);
       }
+  } else if (e.target.id.search("left") > -1){
+    var leftCells = document.querySelectorAll('*[id^="add_cell_left"]');
+    
+    if(e.target.id.search("remove") > -1 && (e.target.nextElementSibling.firstElementChild.getAttribute('col') < 1 || e.target.previousElementSibling.firstElementChild.getAttribute('col') > 5) ) {
+      e.target.parentElement.removeChild(e.target.nextElementSibling);
+    }  
+    
+    if (e.target.id.search("add") > -1 ) {
+      console.log('catmant');
+      console.log(a);
+      e.target.parentElement.insertBefore(a, e.target.nextSibling.nextSibling.nextSibling);
     }
-  }); 
+
+
+    for(var i=0; i < leftCells.length; i++) {
+      if(leftCells[i].id !== e.target.id) {
+        //generate
+        var invisible = generateInvisibleCell(leftCells[i]);
+        leftCells[i].parentElement.insertBefore(invisible, leftCells[i].nextSibling.nextSibling.nextSibling);
+      } else {
+        //do nothing
+      }   
+    }
+      
+    
+  }
+}
+
+for (var i = 0 ; i < addings.length; i++){
+  addings[i].addEventListener('click', addRemoveCells); 
 };
  
  
@@ -91,7 +122,7 @@ function generateNewCell(cellParams) {
 
   grid.addEventListener('submit', function(evt){
    
-    var wordsAndPoints = [];
+  var wordsAndPoints = [];
 
     for (var i = 0; i < evt.target.length; i++) {
       if(evt.target[i].getAttribute('row')){
